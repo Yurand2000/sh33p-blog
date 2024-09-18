@@ -1,0 +1,11 @@
+services:
+  flask_nginx:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/flask_nginx.dockerfile
+    container_name: server-grossi-backend
+    ports:
+      - "5000:80"
+    volumes:
+    - ./app:/app/app
+    - ./static:/app/static
