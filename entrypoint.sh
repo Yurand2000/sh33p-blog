@@ -3,6 +3,6 @@ set -e
 
 /uwsgi-nginx-entrypoint.sh
 
-cp /nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
+cp /config/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 exec "$@"

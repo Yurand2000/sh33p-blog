@@ -2,18 +2,24 @@
 <html lang="en">
     {{ head|safe }}
     <body>
-        {{ header|safe }}
-
-        <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
-            <div class="flex flex-col justify-between px-4 mx-auto max-w-screen-xl max-h-screen">
-                <p class="text-gray-900 text-9xl dark:text-white">404</p>
-                <p class="text-xl text-gray-900 dark:text-white">Not found...</p>
-                <a href="/" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                    Homepage
-                </a>
-            </div>
-        </main>
-
-        {{ footer|safe }}
+        <div class="flex flex-col h-screen bg-white dark:bg-gray-900">
+            {{ header|safe }}
+    
+            <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white mt-4 mb-auto dark:bg-gray-900 antialiased">
+                <div class="flex flex-col justify-between px-4 mx-auto max-w-screen-xl">
+                    <div class="">
+                        <p class="text-gray-900 text-9xl dark:text-white">404</p>
+                        <p class="text-xl text-gray-900 dark:text-white">Not found...</p>
+                    </div>
+                    <div class="w-1/12 mt-4">
+                        <a href="/" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            Homepage
+                        </a>
+                    </div>
+                </div>
+            </main>
+    
+            {{ footer|safe }}
+        </div>
     </body>
 </html>

@@ -4,8 +4,9 @@ app = Flask(__name__)
 
 HOMEPAGE = "localhost:"+str(SERVER_PORT)
 
-def not_found():
-    return render_template("404.html", head = head("Server-Grossi"), header = header(), footer = footer())
+@app.errorhandler(404)
+def not_found(error = None):
+    return render_template("404.html", head = head("404..."), header = header(), footer = footer())
 
 @app.route("/")
 def index():
@@ -13,20 +14,21 @@ def index():
 
 @app.route("/about")
 def about():
-    return not_found()
+    return render_template("about.html", head = head("About"), header = header(), footer = footer())
 
 @app.route("/amenity")
 def amenity():
-    return not_found()
+    amenity = render_template("defaults/amenity.html")
+    return render_template("amenity.html", head = head("Amenity"), header = header(), footer = footer(), amenity = amenity)
 
 def head(title, other = ""):
-    return render_template("head.html", title = title, other = other)
+    return render_template("generic/head.html", title = title, other = other)
 
 def header():
-    return render_template("header.html", homepage = HOMEPAGE)
+    return render_template("generic/header.html", homepage = HOMEPAGE)
 
 def footer():
-    return render_template("footer.html", homepage = HOMEPAGE)
+    return render_template("generic/footer.html", homepage = HOMEPAGE)
 
 if __name__ == "__main__":
     # Only for debugging while developing

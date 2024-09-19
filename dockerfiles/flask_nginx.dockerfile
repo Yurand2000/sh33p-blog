@@ -1,5 +1,7 @@
 FROM tiangolo/uwsgi-nginx-flask:python3.12
 
+ENV UWSGI_INI /config/uwsgi.ini
+
 COPY ./requirements.txt /tmp/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /tmp/requirements.txt
@@ -9,5 +11,4 @@ RUN chmod +x /entrypoint.sh
 
 COPY ./app /app/app
 COPY ./static /app/static
-COPY ./uwsgi.ini /app/uwsgi.ini
-COPY ./.nginx/nginx.conf /nginx/nginx.conf
+COPY ./config /config
