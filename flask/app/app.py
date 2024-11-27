@@ -1,30 +1,35 @@
 import os
+import json
 from flask import Flask, render_template
-from config import *
 from templates import *
 from articles import *
 
+def load_config():
+    with open("/blog/data/config.json", "r") as f:
+        return json.loads(f.read())
+
 app = Flask(__name__)
+app_config = load_config()
 
 @app.errorhandler(404)
 def not_found(error = None):
-    return render_skeleton("404...", render_template("404.html"))
+    return render_skeleton("404...", render_template("404.html"), app_config)
 
 @app.route("/")
 def index():
     articles = ''.join(render_articles_previews())
     posts = render_template("articles/posts.html", articles= articles)
-    return render_skeleton("Sheep Blog", content= posts)
+    return render_skeleton(app_config["blog-name"], posts, app_config)
 
 @app.route("/about")
 def about():
-    return article("about_sheep", False)
+    return article(app_config['about-page'], False)
 
 @app.route("/amenity")
 def amenity():
     amenity = render_template("amenities/origin.html")
     content = render_template("amenity.html", amenity = amenity)
-    return render_skeleton("Amenity", content= content)
+    return render_skeleton("Amenity", content, app_config)
 
 @app.route('/articles/<article>')
 def article(article, skip_hidden = True):
@@ -32,7 +37,7 @@ def article(article, skip_hidden = True):
     if article is None:
         return not_found()
     else:
-        return render_skeleton(article['metadata']['title'], content= article['article'])
+        return render_skeleton(article['metadata']['title'], article['article'], app_config)
     
 @app.route('/about/<username>')
 def about_user(username):
