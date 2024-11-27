@@ -1,0 +1,51 @@
+services:
+  nginx-proxy:
+    build:
+      context: ./nginx
+    restart: always
+    volumes:
+      - ./nginx/default.conf:/tmp/default.conf
+    environment: 
+      - FLASK_SERVER_ADDR=flask-app:8000
+      - FILE_SERVER_ADDR=file-server:8080
+    ports:
+      - "5000:80"
+    depends_on:
+      - flask-app
+      - file-server
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:80/health-check || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    command: /app/start.sh
+
+  flask-app:
+    build:
+      context: ./flask
+    restart: always
+    volumes:
+      - ./local/app:/blog/app:ro
+      - ./local/data:/blog/data:ro
+    environment:
+      - FLASK_SERVER_PORT=8000
+      - PYTHONUNBUFFERED=TRUE
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:8000/flask-health-check || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    command: python /blog/app/app.py
+
+  file-server:
+    build:
+      context: ./file-server
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:8080/files/health-check || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./local/static:/root/static:ro
+    command: -document_root=/root -addr=:8080

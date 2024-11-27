@@ -1,0 +1,32 @@
+{
+    "about_sheep": {
+        "hidden": true,
+        "content": "data/about/sheep.html",
+        "title": "About Me",
+        "subtitle": "",
+        "date": "2024-11-26",
+        "authors": [
+            "sheep"
+        ]
+    },
+    "example-md": {
+        "content": "data/articles/example_md.md",
+        "content-type": "markdown",
+        "title": "Example Markdown",
+        "subtitle": "Example Markdown syntax",
+        "date": "2024-11-07",
+        "authors": [
+            "sheep"
+        ]
+    },
+    "empty": {
+        "content": "data/articles/empty.html",
+        "title": "My Empty Title",
+        "subtitle": "My Empty Subtitle",
+        "date": "1970-01-01",
+        "authors": [
+            "sheep",
+            "sheep2"
+        ]
+    }
+}

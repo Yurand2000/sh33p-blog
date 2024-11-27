@@ -1,0 +1,22 @@
+{
+    "sheep": {
+        "portrait-file": "/static/portraits/sheep.jpg",
+        "portrait-alt": "Sh33p",
+        "link": "/about/sheep",
+        "github": "https://github.com/torvalds/linux",
+        "display_name": "Sh33p - The Sheep",
+        "nickname": "Sh33p",
+        "fullname": "The Awesome Sheep",
+        "description": "Wool"
+    },
+    "sheep2": {
+        "portrait-file": "/static/portraits/sheep.jpg",
+        "portrait-alt": "Sh33p 2",
+        "link": "https://github.com/torvalds/linux",
+        "github": "https://github.com/torvalds/linux",
+        "display_name": "Sh33p 2 - The Second Sheep",
+        "nickname": "Sh33p 2",
+        "fullname": "The Second Awesome Sheep",
+        "description": "Wool Twice"
+    }
+}

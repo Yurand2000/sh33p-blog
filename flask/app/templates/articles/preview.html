@@ -1,0 +1,10 @@
+<article class="mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert text-gray-900 dark:text-white">
+    <header class="p-4 mb-4 border border-gray-600 dark:border-gray-300 rounded-2xl not-format">
+        <address class="flex items-left not-italic">
+            {{ authors|safe }}
+        </address>
+        <p class="mb-1 text-sm leading-tight text-gray-900 dark:text-white">{{ date }}</p>
+        <a href="{{ page }}"><h1 class="mb-2 text-3xl font-extrabold leading-tight text-gray-900 dark:text-white">{{ title }}</h1></a>
+        <p class="leading-tight text-gray-900 dark:text-white">{{ subtitle }}</p>
+    </header>
+</article>

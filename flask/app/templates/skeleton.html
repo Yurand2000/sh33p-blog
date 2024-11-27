@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ head|safe }}
+    <body>
+        <div class="flex flex-col min-h-screen bg-white dark:bg-dark-900">
+            {{ header|safe }}
+
+            <main class="pt-20 pb-8 mb-auto antialiased bg-white dark:bg-dark-900">
+                {{ content|safe }}
+            </main>
+
+            {{ footer|safe }}
+        </div>
+    </body>
+</html>
