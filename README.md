@@ -52,3 +52,7 @@ If you want to update the application code or pages and see their changes live, 
 `>` `docker compose -f compose_dev.yaml up`
 
 The application will now fetch the code from your `local/app` directory, static data from `local/static` and pages data from `local/data`.
+
+## License
+
+The source code is licensed under [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/). If you do not alter the source code in any way, but just add/remove pages and static files, you can freely use this software for your own blogs.
