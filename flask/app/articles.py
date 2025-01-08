@@ -32,24 +32,37 @@ def render_author_small(author: str):
         name= data['nickname']
     )
 
-def render_article_preview(metadata):
+def render_article_date(metadata):
     import time
+
+    return "" if metadata['date'] is None else time.strftime("%b %d, %Y", metadata['date'])
+
+def render_article_preview(metadata):
     authors = ''.join([ render_author_small(a) for a in metadata['authors'] ])
     return render_template(
         "articles/preview.html",
         title = metadata['title'],
         subtitle = metadata['subtitle'],
         authors = authors,
-        date = time.strftime("%b %d, %Y", metadata['date']),
+        date = render_article_date(metadata),
         page = f"./articles/{metadata['page']}",
     )
 
-def __parse_article_metadata(article, data):
+def __parse_article_date(date: str):
     import time
     time_format = "%Y-%m-%d"
 
+    try:
+        if date is None or date == "":
+            return None
+        else:
+            return time.strptime(date, time_format)
+    except:
+        return None
+
+def __parse_article_metadata(article, data):
     data['page'] = article
-    data['date'] = time.strptime(data['date'], time_format)
+    data['date'] = __parse_article_date(data['date'])
     if 'content-type' not in data:
         data['content-type'] = 'html'
     if 'hidden' not in data:
@@ -86,7 +99,7 @@ def render_article(article: str, skip_hidden = True):
         title = metadata['title'],
         subtitle = metadata['subtitle'],
         authors = authors,
-        date = time.strftime("%b %d, %Y", metadata['date']),
+        date = render_article_date(metadata),
     )
     
     page = None
@@ -120,10 +133,12 @@ def render_article(article: str, skip_hidden = True):
     }
 
 def render_articles_previews():
+    import time
+
     metadata = get_articles_metadata()
     metadata = sorted(
         filter(lambda elem: not elem['hidden'], metadata),
-        key= lambda elem: elem['date'],
+        key= lambda elem: elem['date'] if elem['date'] is not None else time.gmtime(0),
         reverse= True
     )
 

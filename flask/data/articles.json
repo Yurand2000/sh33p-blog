@@ -4,7 +4,7 @@
         "content": "data/about/sheep.html",
         "title": "About Me",
         "subtitle": "",
-        "date": "2024-11-26",
+        "date": null,
         "authors": [
             "sheep"
         ]
