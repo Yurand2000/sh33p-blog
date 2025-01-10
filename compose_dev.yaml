@@ -9,7 +9,7 @@ services:
       - FLASK_SERVER_ADDR=flask-app:8000
       - FILE_SERVER_ADDR=file-server:8080
     ports:
-      - "5000:80"
+      - "${HOST}:${PORT}:80"
     depends_on:
       - flask-app
       - file-server
@@ -25,8 +25,8 @@ services:
       context: ./flask
     restart: always
     volumes:
-      - ./local/app:/blog/app:ro
-      - ./local/data:/blog/data:ro
+      - ./data/app:/blog/app:ro
+      - ./data/blog_data:/blog/data:ro
     environment:
       - FLASK_SERVER_PORT=8000
       - PYTHONUNBUFFERED=TRUE
@@ -47,5 +47,5 @@ services:
       timeout: 10s
       retries: 3
     volumes:
-      - ./local/static:/root/static:ro
+      - ./data/static:/root/static:ro
     command: -document_root=/root -addr=:8080

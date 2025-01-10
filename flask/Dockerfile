@@ -28,6 +28,5 @@ RUN export FLASK_APP=app.py
 
 # copy all the files to the container
 COPY --chown=nonroot:nonroot app /blog/app
-COPY --chown=nonroot:nonroot data /blog/data
 
 CMD ["python", "app.py"]
