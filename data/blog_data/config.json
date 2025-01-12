@@ -3,5 +3,8 @@
     "blog-icon": "/static/portraits/sheep.jpg",
     "blog-icon-alt": "sh33p-blog-ico",
     "footer-text": "Sh33p Blog",
-    "about-page": "about_sheep"
+    "about-page": "about_sheep",
+
+    "permanent_session": true,
+    "permanent_session_duration": 2678400
 }

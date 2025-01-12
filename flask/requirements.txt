@@ -3,3 +3,4 @@ gunicorn==23.0.0
 markdown==3.7
 oauthlib==3.2.2
 requests==2.32.3
+pymongo==4.10.1
