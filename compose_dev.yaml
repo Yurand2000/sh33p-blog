@@ -24,6 +24,7 @@ services:
     build:
       context: ./flask
     restart: always
+    env_file: ".env"
     volumes:
       - ./data/app:/blog/app:ro
       - ./data/blog_data:/blog/data:ro
