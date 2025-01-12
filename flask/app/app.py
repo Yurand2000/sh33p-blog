@@ -3,6 +3,7 @@ import json
 from flask import Flask, render_template
 from templates import *
 from articles import *
+from login import *
 
 def load_config():
     with open("/blog/data/config.json", "r") as f:
@@ -10,6 +11,8 @@ def load_config():
 
 app = Flask(__name__)
 app_config = load_config()
+
+client_handler = ClientHandler('https://127.0.0.1:5000/login/callback')
 
 @app.errorhandler(404)
 def not_found(error = None):
@@ -46,6 +49,17 @@ def about_user(username):
 @app.route('/flask-health-check')
 def flask_health_check():
 	return "success"
+
+@app.route('/login')
+def login_page():
+    google_login_uri = client_handler.login()
+    content = render_template("login/login.html", uri= google_login_uri)
+    return render_skeleton("Login", content, app_config)
+
+@app.route('/login/callback')
+def login_callback():
+    from flask import request
+    print(client_handler.login_callback(request))
 
 if __name__ == "__main__":
     import os, sys
