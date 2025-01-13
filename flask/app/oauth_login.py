@@ -74,7 +74,8 @@ class GoogleLogin(OauthLoginHandler):
         # check csrf token
         request_csrf_token = request.args.get('state')
         csrf_token = session.get('csrf_token')
-        session.pop('csrf_token')
+        if csrf_token is not None:
+            session.pop('csrf_token')
 
         if request_csrf_token != csrf_token:
             return None

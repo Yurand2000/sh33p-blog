@@ -34,7 +34,7 @@ class UserManagement:
         users.update_one({'uid': uid}, {'$set' : {'logged_in': True}})
 
     def logout(self):
-        uid = session['uid']
+        uid = session.get('uid')
         if uid is None:
             return
 
