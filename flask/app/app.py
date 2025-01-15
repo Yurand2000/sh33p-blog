@@ -5,6 +5,7 @@ from templates import *
 from articles import *
 from oauth_login import *
 from session import *
+from amenities import *
 
 def load_config():
     with open("/blog/data/config.json", "r") as f:
@@ -33,7 +34,7 @@ def about():
 
 @app.route("/amenity")
 def amenity():
-    amenity = render_template("amenities/origin.html")
+    amenity = get_todays_amenity()
     content = render_template("amenity.html", amenity = amenity)
     return render_skeleton("Amenity", content, app_config)
 
