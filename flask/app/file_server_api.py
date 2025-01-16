@@ -19,8 +19,10 @@ class FileServerAPI:
     
     def upload_file(self, filename: str, content: bytes, overwrite : bool = False):
         data = {
-            'file': content,
             'overwrite': overwrite
         }
-        response = requests.put(f"http://{self.host}/files/{self.data_folder}/{filename}", data=data)
+        response = requests.put(f"http://{self.host}/files/{self.data_folder}/{filename}", data=data, files=dict(file= content))
+        print(response.content, response.status_code)
         return response.status_code == 200
+
+fs = FileServerAPI()
