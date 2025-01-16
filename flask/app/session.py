@@ -23,6 +23,21 @@ class UserManagement:
     def is_logged_in(self):
         uid = session.get('uid')
         return uid is not None
+    
+    def get_user_data(self):
+        uid = session.get('uid')
+        if uid is None:
+            return None
+        
+        users = self.mongo[self.db_name][self.user_data_collection]
+        user = users.find_one({'uid': uid})
+
+        return {
+            'name': user['first_name'],
+            'surname': user['last_name'],
+            'email': user['email'],
+            'picture': user['picture']
+        }
 
     def login(self, login_data: LoginInfo):
         self.__register_user(login_data)

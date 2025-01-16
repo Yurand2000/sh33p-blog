@@ -1,4 +1,5 @@
 from flask import render_template, session
+from app import user_management
 
 def render_skeleton(title, content, app_config):
     return render_template(
@@ -22,8 +23,11 @@ def footer(app_config):
                            blogname = app_config['blog-name'])
 
 def render_login_data():
-    if session.get('uid') is not None:
-        return render_template("generic/logged_in.html", icon='/static/portraits/sheep.jpg', iconalt='alt', name='Name')
+    if user_management.is_logged_in():
+        user_data = user_management.get_user_data()
+
+        name = ' '.join([ str.upper(x[0]) + str.lower(x[1:]) for x in user_data['name'].split(' ')])
+        return render_template("generic/logged_in.html", icon=user_data['picture'], iconalt=f"{name}'s icon", name= name)
     else:
         return render_template("generic/do_login.html")
 
