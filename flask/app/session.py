@@ -20,6 +20,10 @@ class UserManagement:
         from hashlib import sha256
         return sha256(email.encode()).digest().hex()
 
+    def is_logged_in(self):
+        uid = session.get('uid')
+        return uid is not None
+
     def login(self, login_data: LoginInfo):
         self.__register_user(login_data)
 

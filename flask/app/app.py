@@ -52,9 +52,11 @@ def about_user(username):
 
 @app.route('/login')
 def login_page():
-    google_login_uri = client_handler.get_login_uri()
-    content = render_template("login/login.html", uri= google_login_uri)
-    return render_skeleton("Login", content, app_config)
+    if not user_management.is_logged_in():
+        google_login_uri = client_handler.get_login_uri()
+        return redirect(google_login_uri)
+    else:
+        return redirect("/")
 
 @app.route('/login/callback')
 def login_callback():
