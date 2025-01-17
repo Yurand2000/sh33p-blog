@@ -1,24 +1,24 @@
-from flask import render_template, session
-from app import user_management
+from flask import render_template
+from globals import user_management, app_config
 
-def render_skeleton(title, content, app_config):
+def render_skeleton(title, content):
     return render_template(
         "skeleton.html",
         head = head(title),
-        header = header(app_config),
-        footer = footer(app_config),
+        header = header(),
+        footer = footer(),
         content = content
     )
 
 def head(title, other = ""):
     return render_template("generic/head.html", title = title, other = other)
 
-def header(app_config):
+def header():
     return render_template("generic/header.html", blogicon = app_config['blog-icon'],
                            blogiconalt = app_config['blog-icon-alt'], blogname = app_config['blog-name'],
                            login = render_login_data())
 
-def footer(app_config):
+def footer():
     return render_template("generic/footer.html", footertext = app_config['footer-text'],
                            blogname = app_config['blog-name'])
 

@@ -50,11 +50,12 @@ class UserDataUpdateBuilder:
         self.updates['author_id'] = new_author_id
 
 class UserManagement:
-    def __init__(self, flask_obj: Flask, app_config: dict):
+    def __init__(self):
         self.mongo = MongoClient(host=os.environ['MONGO_SERVER_ADDR'], port=int(os.environ['MONGO_SERVER_PORT']))
         self.db_name = "sh33p-blog"
         self.user_data_collection = "user-data"
-
+    
+    def setup(self, flask_obj: Flask, app_config: dict):
         # permanent session configuration
         self.set_session_permanent = app_config['permanent_session']
         if self.set_session_permanent:

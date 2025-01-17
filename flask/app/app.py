@@ -6,27 +6,33 @@ from articles import *
 from oauth_login import *
 from session import *
 from amenities import *
+from pages.settings import *
+from globals import *
 
 def load_config():
+    global app_config
+
     with open("/blog/data/config.json", "r") as f:
-        return json.loads(f.read())
+        config = json.loads(f.read())
+        app_config.update((k, config[k]) for k in config.keys())
 
 app = Flask(__name__)
-app.secret_key = os.urandom(12)
-app_config = load_config()
+app.secret_key = os.environ['FLASK_SECRET_KEY']
+app.register_blueprint(settings_bp)
+load_config()
 
 client_handler = GoogleLogin("https://127.0.0.1", "login/callback")
-user_management = UserManagement(app, app_config)
+user_management.setup(app, app_config)
 
 @app.errorhandler(404)
 def not_found(error = None):
-    return render_skeleton("404...", render_template("404.html"), app_config)
+    return render_skeleton("404...", render_template("404.html"))
 
 @app.route("/")
 def index():
     articles = ''.join(render_articles_previews())
     posts = render_template("articles/posts.html", articles= articles)
-    return render_skeleton(app_config["blog-name"], posts, app_config)
+    return render_skeleton(app_config["blog-name"], posts)
 
 @app.route("/about")
 def about():
@@ -36,7 +42,7 @@ def about():
 def amenity():
     amenity = get_todays_amenity()
     content = render_template("amenity.html", amenity = amenity)
-    return render_skeleton("Amenity", content, app_config)
+    return render_skeleton("Amenity", content)
 
 @app.route('/articles/<article>')
 def article(article, skip_hidden = True):
@@ -44,7 +50,7 @@ def article(article, skip_hidden = True):
     if article is None:
         return not_found()
     else:
-        return render_skeleton(article['metadata']['title'], article['article'], app_config)
+        return render_skeleton(article['metadata']['title'], article['article'])
     
 @app.route('/about/<username>')
 def about_user(username):
