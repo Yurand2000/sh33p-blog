@@ -3,12 +3,13 @@ from globals import user_management
 from oauth_login import GoogleLogin
 
 login_bp = Blueprint("login_pages", __name__)
-oauth = GoogleLogin("https://127.0.0.1", "login/callback")
+oauth = GoogleLogin("login/callback")
 
 @login_bp.route('/login')
 def login_page():
+    from flask import request
     if not user_management.is_logged_in():
-        login_uri = oauth.get_login_uri()
+        login_uri = oauth.get_login_uri(request)
         return redirect(login_uri)
     else:
         return redirect("/")

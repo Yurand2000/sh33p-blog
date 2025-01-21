@@ -28,14 +28,13 @@ class OauthLoginHandler:
         pass
 
 class GoogleLogin(OauthLoginHandler):
-    def __init__(self, host_uri: str, callback_uri: str):
+    def __init__(self, callback_uri: str):
         import os
         from oauthlib.oauth2 import WebApplicationClient
 
         self.GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
         self.GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
-        self.host_uri = host_uri
-        self.callback_uri = f"{host_uri}/{callback_uri}"
+        self.callback_uri = callback_uri
         self.login_scopes = ['openid', 'email', 'profile']
 
         self.client = WebApplicationClient(self.GOOGLE_CLIENT_ID)
@@ -46,23 +45,24 @@ class GoogleLogin(OauthLoginHandler):
         )
         return requests.get(GOOGLE_DISCOVERY_URL).json()
 
-    def get_login_uri(self, login_hint: str | None = None) -> str:
+    def get_login_uri(self, request: Request, login_hint: str | None = None) -> str:
         import hashlib, os
         csrf_token = hashlib.sha256(os.urandom(1024)).hexdigest()
         session['csrf_token'] = csrf_token
         google_cfg = GoogleLogin.__get_google_provider_cfg()
 
+        host_uri = request.host
         if login_hint is not None:
             return self.client.prepare_request_uri(
                 google_cfg['authorization_endpoint'],
-                redirect_uri = self.callback_uri,
+                redirect_uri = f"https://{host_uri}/{self.callback_uri}",
                 scope = self.login_scopes,
                 state = csrf_token
             )
         else:
             return self.client.prepare_request_uri(
                 google_cfg['authorization_endpoint'],
-                redirect_uri = self.callback_uri,
+                redirect_uri = f"https://{host_uri}/{self.callback_uri}",
                 scope = self.login_scopes,
                 state = csrf_token,
                 login_hint = login_hint
@@ -83,10 +83,11 @@ class GoogleLogin(OauthLoginHandler):
         # get access tokens
         auth_code = request.args.get('code')
         query_str = request.url.removeprefix(request.base_url)
+        host_uri = request.host
         token_url, headers, body = self.client.prepare_token_request(
             google_cfg['token_endpoint'],
-            authorization_response = f"{self.callback_uri}{query_str}",
-            redirect_url = self.callback_uri,
+            authorization_response = f"https://{host_uri}/{self.callback_uri}{query_str}",
+            redirect_url = f"https://{host_uri}/{self.callback_uri}",
             code = auth_code
         )
 
